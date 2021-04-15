@@ -16,7 +16,7 @@ void listFiles(const char *dirpath)
 
 	dirp = opendir(dirpath);
 	if (dirp == NULL) {
-		perror("opendir");
+		fprintf(stderr, "ls: cannot access '%s': No such file or directory\n", dirpath);
 		return;
 	}
 
