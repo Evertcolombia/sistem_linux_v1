@@ -11,7 +11,7 @@ void listFiles(const char *dirpath)
 {
 	DIR *dirp;
 	struct dirent *dp;
-	char *buffer, msg;
+	char *buffer, *msg;
 	int ncase = 0;
 	ls_c list;
 
