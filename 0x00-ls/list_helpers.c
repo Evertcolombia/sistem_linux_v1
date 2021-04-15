@@ -99,7 +99,6 @@ int list_rem_next(ls_c *list, ls_n *element, void **name)
 		if (element->next == NULL)
 			list->tail = element;
 	}
-	/*free(*name);*/
 	free(old);
 	list->size--;
 	return (0);
@@ -130,11 +129,10 @@ void print_list_safe(ls_c *list, ls_n *head, int ncase)
 				continue;
 			}
 		}
-		write(1, cp->name, _strlen(cp->name));
 		if (i + 1 == size)
-			write(1, "\n", 1);
+			fprintf(stdout, "%s\n", cp->name);
 		else
-			write(1, "  ", 2);
+			fprintf(stdout, "%s  ", cp->name);
 		cp = cp->next;
 		i++;
 	}

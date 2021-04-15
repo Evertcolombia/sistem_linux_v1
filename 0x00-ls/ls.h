@@ -6,10 +6,11 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <unistd.h>
 #include <time.h>
 #include <pwd.h>
+#include <stdio.h>
+#include <errno.h>
 
 /**
  * struct ls_node  - our struct
@@ -75,8 +76,10 @@ char *_strncpy(char *dest, char *src, int n);
 int _strncmp(char *s1, char *s2, int n);
 
 /* core prototypes */
-void listFiles(const char *dirpath);
+void listFiles(const char *dirpath, int argc);
 void statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
+DIR *open_directory(DIR *dirp, char *path);
+void print_safe(int arc, ls_c *list, int ncase, char *copy);
 
 /* other helpers*/
 char *allocBuf(char *dest, char *path, char *name);

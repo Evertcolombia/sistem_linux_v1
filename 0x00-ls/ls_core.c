@@ -1,57 +1,104 @@
 #include "ls.h"
 
 /**
- * listFiles - list files from a dir path
- * @dirpath: pointer to pathname
+ * open_directory - list files from a dir path
+ * @dirp: DIR strem pointer
+ * @path: pointer to pathname
  *
  * Return: None
  */
-void listFiles(const char *dirpath)
+DIR *open_directory(DIR *dirp, char *path)
 {
-	DIR *dirp;
+	char *msg;
+	int errnum;
+
+	dirp = opendir(path);
+	if (dirp == NULL)
+	{
+		errnum = errno;
+		if (errnum == 2)
+		{
+			msg = "No such file or directory";
+			fprintf(stderr, "hls: cannot access '%s': %s\n", path, msg);
+		}
+		else if (errnum == 13)
+		{
+			msg = "Permission denied";
+			fprintf(stderr, "hls: cannot access %s: %s\n", path, msg);
+		}
+		exit(2);
+	}
+
+	return (dirp);
+}
+
+/**
+ * listFiles - list files from a dir path
+ * @dirpath: pointer to pathname
+ * @arc: int
+ *
+ * Return: None
+ */
+void listFiles(const char *dirpath, int arc)
+{
+	DIR *dirp = NULL;
 	struct dirent *dp;
-	char /* * buffer, */ *msg;
+	char *buffer, *copy = NULL;
 	int ncase = 0;
 	ls_c list;
 
 	list_init(&list, NULL);
-	/*bool isCurrent;*/	/* True if 'dirpath' is "." */
-	/*isCurrent = _strcmp(dirpath, ".") == 0;*/
+	dirp = open_directory(dirp, (char *) dirpath);
 
-	dirp = opendir(dirpath);
-	if (dirp == NULL)
-	{
-		msg = "No such file or directory";
-		fprintf(stderr, "hls: cannot access '%s': %s\n", dirpath, msg);
-		exit(EXIT_FAILURE);
-	}
+	copy = (char *) dirpath;
+	if (_strcmp((char *) dirpath, "..") == 0)
+		dirpath = "../";
 
 	while ((dp = readdir(dirp)))
 	{
 		if (_strcmp(dp->d_name, ".") == 0 || _strcmp(dp->d_name, "..") == 0)
 			continue;
-		statinfo(dp->d_name, dp->d_name, &list, false);
-		/**
-		 * if (_strcmp((char *)dirpath, ".") == 0)
-		 * {
-		 * ncase = 0;
-		 * statinfo(dp->d_name, dp->d_name, &list, false);
-		 * }
-		 * else
-		 * {
-		 * buffer = allocBuf(buffer, (char *)dirpath, dp->d_name);
-		 * statinfo(buffer, dp->d_name, &list, true);
-		 * }
-		 */
+
+		if (_strcmp((char *)dirpath, ".") == 0)
+		{
+			ncase = 0;
+			statinfo(dp->d_name, dp->d_name, &list, false);
+		}
+		else
+		{
+			buffer = allocBuf(buffer, (char *)dirpath, dp->d_name);
+			statinfo(buffer, dp->d_name, &list, true);
+		}
 	}
 
-	print_list_safe(&list, list.head, ncase);
-	list_destroy(&list);
+	print_safe(arc, &list, ncase, copy);
 	if (closedir(dirp) == -1)
 	{
 		perror("closedir");
 		exit(EXIT_FAILURE);
 	}
+}
+
+/**
+ * print_safe - print safe
+ * @arc: int
+ * @list: linked l controller
+ * @ncase: int
+ * @copy: char pointer
+ *
+ * Retur: none
+ */
+void print_safe(int arc, ls_c *list, int ncase, char *copy)
+{
+	if (arc > 2)
+		fprintf(stdout, "%s:\n", copy);
+
+	print_list_safe(list, list->head, ncase);
+
+	if (arc > 2 && list->size > 0)
+		fprintf(stdout, "%c", '\n');
+
+	list_destroy(list);
 }
 
 /**
@@ -64,8 +111,7 @@ void listFiles(const char *dirpath)
 void statinfo(const char *pathname, char *name, ls_c *list, bool isFree)
 {
 	struct stat sb;
-	/*struct passwd *pp;*/
-	/*char *type = NULL;*/
+
 	if (lstat(pathname, &sb) == -1)
 	{
 		perror("lstat");
@@ -74,6 +120,4 @@ void statinfo(const char *pathname, char *name, ls_c *list, bool isFree)
 	list_ins_next(list, list->last_in, name);
 	if (isFree)
 		free((char *)pathname);
-	return;
-
 }

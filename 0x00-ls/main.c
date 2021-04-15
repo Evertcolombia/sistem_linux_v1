@@ -12,6 +12,13 @@ int main(int argc, char *argv[])
 	if (argc > 1 && _strcmp(argv[1], "--help") == 0)
 		exit(EXIT_FAILURE);
 	if (argc == 1)
-		listFiles(".");
-	return(0);
+		listFiles(".", argc);
+	else
+	{
+		argv++;
+		for (; *argv; argv++)
+			listFiles(*argv, argc);
+	}
+
+	return (0);
 }
