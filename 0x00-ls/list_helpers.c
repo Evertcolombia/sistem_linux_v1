@@ -61,8 +61,7 @@ int list_ins_next(ls_c *list, ls_n *element, const void *name)
 	}
 	list->last_in = new;
 	list->size++;
-
-	return (0);
+	return (1);
 }
 
 /**

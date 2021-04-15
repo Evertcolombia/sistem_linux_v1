@@ -4,27 +4,16 @@
  * open_directory - list files from a dir path
  * @dirp: DIR strem pointer
  * @path: pointer to pathname
+ * @list: linked list controller
  *
- * Return: None
+ * Return: DIR stream on success
  */
-DIR *open_directory(DIR *dirp, char *path)
+DIR *open_directory(DIR *dirp, char *path, ls_c *list)
 {
-	char *msg;
-
 	dirp = opendir(path);
 	if (dirp == NULL)
 	{
-		if(errno == ENOENT)
-		{
-			msg = "No such file or directory";
-			fprintf(stderr, "hls: cannot access '%s': %s\n", path, msg);
-		}
-		else if (errno == EACCES)
-		{
-			msg = "Permission denied";
-			fprintf(stderr, "hls: cannot access %s: %s\n", path, msg);
-		}
-		exit(2);
+		error_mannager(errno, true, path, list);
 	}
 
 	return (dirp);
@@ -46,7 +35,7 @@ void listFiles(const char *dirpath, int arc)
 	ls_c list;
 
 	list_init(&list, NULL);
-	dirp = open_directory(dirp, (char *) dirpath);
+	dirp = open_directory(dirp, (char *) dirpath, &list);
 
 	copy = (char *) dirpath;
 	if (_strcmp((char *) dirpath, "..") == 0)
@@ -68,7 +57,6 @@ void listFiles(const char *dirpath, int arc)
 			statinfo(buffer, dp->d_name, &list, true);
 		}
 	}
-
 	print_safe(arc, &list, ncase, copy);
 	if (closedir(dirp) == -1)
 	{
@@ -105,8 +93,10 @@ void print_safe(int arc, ls_c *list, int ncase, char *copy)
  * @name: name of the file /dir
  * @list: linked list controller
  * @isFree: flag
+ *
+ * Return: int
  */
-void statinfo(const char *pathname, char *name, ls_c *list, bool isFree)
+int statinfo(const char *pathname, char *name, ls_c *list, bool isFree)
 {
 	struct stat sb;
 
@@ -118,4 +108,5 @@ void statinfo(const char *pathname, char *name, ls_c *list, bool isFree)
 	list_ins_next(list, list->last_in, name);
 	if (isFree)
 		free((char *)pathname);
+	return (0);
 }

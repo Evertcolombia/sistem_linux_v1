@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
 	if (argc > 1 && _strcmp(argv[1], "--help") == 0)
-		exit(EXIT_FAILURE);
+		return (-2);
 	if (argc == 1)
 		listFiles(".", argc);
 	else
