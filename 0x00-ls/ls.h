@@ -76,7 +76,7 @@ int _strncmp(char *s1, char *s2, int n);
 
 /* core prototypes */
 void listFiles(const char *dirpath);
-
+void statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
 
 /* other helpers*/
 char *allocBuf(char *dest, char *path, char *name);

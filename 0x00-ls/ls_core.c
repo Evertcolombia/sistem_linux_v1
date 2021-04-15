@@ -1,6 +1,5 @@
 #include "ls.h"
 
-void statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
 /**
  * listFiles - list files from a dir path
  * @dirpath: pointer to pathname
@@ -11,7 +10,7 @@ void listFiles(const char *dirpath)
 {
 	DIR *dirp;
 	struct dirent *dp;
-	char /**buffer,*/ *msg;
+	char /* * buffer, */ *msg;
 	int ncase = 0;
 	ls_c list;
 
@@ -27,15 +26,10 @@ void listFiles(const char *dirpath)
 		exit(EXIT_FAILURE);
 	}
 
-	for (;;)
+	while ((dp = readdir(dirp)))
 	{
-		dp = readdir(dirp);
-		if (dp == NULL)
-			break;
-
 		if (_strcmp(dp->d_name, ".") == 0 || _strcmp(dp->d_name, "..") == 0)
 			continue;
-
 		statinfo(dp->d_name, dp->d_name, &list, false);
 		/**
 		 * if (_strcmp((char *)dirpath, ".") == 0)
