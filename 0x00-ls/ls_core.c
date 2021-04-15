@@ -17,7 +17,7 @@ void listFiles(const char *dirpath)
 	dirp = opendir(dirpath);
 	if (dirp == NULL) {
 		fprintf(stderr, "ls: cannot access '%s': No such file or directory\n", dirpath);
-		return;
+		exit(EXIT_FAILURE);
 	}
 
 	for (;;) {
@@ -42,7 +42,7 @@ void listFiles(const char *dirpath)
 	list_destroy(&list);
 	if (closedir(dirp) == -1) {
 		perror("closedir");
-		return;
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -53,19 +53,9 @@ void displayStatinfo(const char *pathname, char *name, ls_c *list, bool isFree)
 	/*char *type = NULL;*/
 	if (lstat(pathname, &sb) == -1) {
 		perror("lstat");
-		return;
+		exit(EXIT_FAILURE);
 	}
 	list_ins_next(list, list->last_in, name);
-	/*
-	printf("UID = %ld\n",(long) sb.st_uid);
-	pp = getpwuid(sb.st_uid);
-	printf("%c%s ", fileTypeStr(sb.st_mode), filePermStr(sb.st_mode));
-	if (pp != NULL)
-		printf("%s ", pp->pw_dir);
-	printf("%lld ", (long long) sb.st_size);
-	printf("%s ", getLastModTime(sb.st_mtime));
-	printf("%s\n", name);
-	*/
 	if (isFree)
 		free((char *)pathname);
 	return;

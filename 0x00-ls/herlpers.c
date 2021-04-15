@@ -8,7 +8,7 @@ char *allocBuf(char *dest, char *path, char *name)
 	dest = (char *) malloc(len * sizeof(char));
 	if (!dest) {
 		fprintf(stderr, "%s\n", "Error in malloc");
-		return (NULL);
+		exit(EXIT_FAILURE);
 	}
 	
 	dest = _strcpy(dest, path);
