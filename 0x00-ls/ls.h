@@ -11,12 +11,31 @@
 #include <time.h>
 #include <pwd.h>
 
-typedef struct ls_node {
+/**
+ * struct ls_node  - our struct
+ *
+ * @name: name of the file / dir
+ * @next: ponter to next node
+ *
+ */
+typedef struct ls_node
+{
 	char *name;
 	struct ls_node *next;
 } ls_n;
 
-typedef struct ls_control {
+/**
+ * struct ls_control  - our struct
+ *
+ * @size: size of l list
+ * @match: pointer to function
+ * @destroy: pointer to func
+ * @head: ehad of l list
+ * @last_in: last node inserted
+ * @tail: tail of list
+ */
+typedef struct ls_control
+{
 	int size;
 
 	int (*match)(const void *key1, const void *key2);
@@ -24,8 +43,8 @@ typedef struct ls_control {
 
 	ls_n *head;
 	ls_n *last_in;
-	ls_n *tail;	
-}ls_c;
+	ls_n *tail;
+} ls_c;
 
 /*prototypes for control of the linked list an macros*/
 void list_init(ls_c *list, void (*destroy)(void *name));

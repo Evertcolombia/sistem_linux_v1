@@ -1,12 +1,13 @@
-/*This program copy two strings with n of bytes*/
+#include "shell.h"
 
 /**
- * *_strncat - concatenate two  strings with n bytes for the second
+ * *_strncpy - concatenate two  strings with n bytes for the second
  * @dest: pointer to a string
  * @src: pointer to the strign to concatenate
+ * @n: intger
  *
  * Return: dest
- */ 
+ */
 char *_strncpy(char *dest, char *src, int n)
 {
 	char *h = dest;

@@ -2,6 +2,12 @@
 
 #define STR_SIZE sizeof("rwxrwxrwx")
 
+/**
+ * filePermStr - get file perms
+ * @perm: struct with perms
+ *
+ * Return: pointer to char
+ */
 char *filePermStr(mode_t perm)
 {
 	static char str[STR_SIZE];
@@ -15,10 +21,18 @@ char *filePermStr(mode_t perm)
 	return (str);
 }
 
+/**
+ * fileTypeStr - get file mode
+ * @type: type to look
+ *
+ * Return: char
+ */
 char fileTypeStr(mode_t type)
 {
 	char dest;
-	switch(type & S_IFMT) {
+
+	switch (type & S_IFMT)
+	{
 		case S_IFREG:
 			dest = '-';
 			break;
@@ -29,6 +43,12 @@ char fileTypeStr(mode_t type)
 	return (dest);
 }
 
+/**
+ * getLastModTime - get las modified time
+ * @mtime: modified time
+ *
+ * Return: char pointer
+ */
 char *getLastModTime(time_t mtime)
 {
 	char *time = NULL;
@@ -38,6 +58,5 @@ char *getLastModTime(time_t mtime)
 	len = _strlen(time);
 	if (time[len - 1] == '\n')
 		time[len - 1] = '\0';
-	/*printf("%c\n", time[len - 4]);*/
 	return (time);
 }

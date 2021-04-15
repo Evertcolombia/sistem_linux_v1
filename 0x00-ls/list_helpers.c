@@ -1,15 +1,23 @@
 #include "ls.h"
 
-void list_init(ls_c *list, void (*destroy)(void *name)) {
+/**
+ * list_init - init a l list control struct
+ * @list: pointer to struct
+ * @destroy: pointer to function
+ */
+void list_init(ls_c *list, void (*destroy)(void *name))
+{
 	list->size = 0;
 	list->destroy = destroy;
 	list->head = NULL;
 	list->last_in = NULL;
 	list->tail = NULL;
-
-	return;
 }
 
+/**
+ * list_destroy - destroy list
+ * @list: linked list controller
+ */
 void list_destroy(ls_c *list)
 {
 	void *data;
@@ -17,9 +25,16 @@ void list_destroy(ls_c *list)
 	while (list_size(list) > 0)
 		list_rem_next(list, NULL, (void **)&data);
 	free(list->head);
-
-	return;
 }
+
+/**
+ * list_ins_next - insert node in linked list
+ * @list: linked list
+ * @element: node
+ * @name: element to insert
+ *
+ * Return: int
+ */
 
 int list_ins_next(ls_c *list, ls_n *element, const void *name)
 {
@@ -30,24 +45,34 @@ int list_ins_next(ls_c *list, ls_n *element, const void *name)
 		return (-1);
 	new->name = (void *) name;
 
-	if (element == NULL) {
+	if (element == NULL)
+	{
 		if (list_size(list) == 0)
 			list->tail = new;
 		new->next = list->head;
 		list->head = new;
 	}
-	else {
+	else
+	{
 		if (element->next == NULL)
 			list->tail = new;
 		new->next = element->next;
 		element->next = new;
 	}
-
 	list->last_in = new;
 	list->size++;
-	
+
 	return (0);
 }
+
+/**
+ * list_rem_next - delete element from list
+ * @list: linked list
+ * @element: element to delete next
+ * @name: double pinter
+ *
+ * Return: int
+ */
 
 int list_rem_next(ls_c *list, ls_n *element, void **name)
 {
@@ -56,12 +81,14 @@ int list_rem_next(ls_c *list, ls_n *element, void **name)
 	if (list_size(list) == 0)
 		return (-1);
 
-	if (element == NULL) {
+	if (element == NULL)
+	{
 		*name = list->head->name;
 		old = list->head;
 		list->head = list->head->next;
 	}
-	else {
+	else
+	{
 		if (element->next == NULL)
 			return (-1);
 
@@ -78,6 +105,12 @@ int list_rem_next(ls_c *list, ls_n *element, void **name)
 	return (0);
 }
 
+/**
+ * print_list_safe - print linked list
+ * @list: list control
+ * @head: head of the list
+ * @ncase: case o use
+ */
 void print_list_safe(ls_c *list, ls_n *head, int ncase)
 {
 	int i = 0, size = 0;
@@ -86,10 +119,13 @@ void print_list_safe(ls_c *list, ls_n *head, int ncase)
 	size = list_size(list);
 	if (size == 0)
 		return;
-	
-	while(i < size) {
-		if (ncase == 0) {
-			if (_strncmp(cp->name, ".", 1) == 0) {
+
+	while (i < size)
+	{
+		if (ncase == 0)
+		{
+			if (_strncmp(cp->name, ".", 1) == 0)
+			{
 				cp = cp->next, i++;
 				continue;
 			}
@@ -102,6 +138,5 @@ void print_list_safe(ls_c *list, ls_n *head, int ncase)
 		cp = cp->next;
 		i++;
 	}
-	return;
 }
 
