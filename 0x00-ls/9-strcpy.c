@@ -1,3 +1,4 @@
+#include "ls.h"
 /**
  * _strcpy - copies the content of a string to other
  * @dest: ponter to save content

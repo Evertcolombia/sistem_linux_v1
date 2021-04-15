@@ -11,7 +11,7 @@ void listFiles(const char *dirpath)
 {
 	DIR *dirp;
 	struct dirent *dp;
-	char *buffer, *msg;
+	char /**buffer,*/ *msg;
 	int ncase = 0;
 	ls_c list;
 
@@ -36,16 +36,19 @@ void listFiles(const char *dirpath)
 		if (_strcmp(dp->d_name, ".") == 0 || _strcmp(dp->d_name, "..") == 0)
 			continue;
 
-		if (_strcmp((char *)dirpath, ".") == 0)
-		{
-			ncase = 0;
-			statinfo(dp->d_name, dp->d_name, &list, false);
-		}
-		else
-		{
-			buffer = allocBuf(buffer, (char *)dirpath, dp->d_name);
-			statinfo(buffer, dp->d_name, &list, true);
-		}
+		statinfo(dp->d_name, dp->d_name, &list, false);
+		/**
+		 * if (_strcmp((char *)dirpath, ".") == 0)
+		 * {
+		 * ncase = 0;
+		 * statinfo(dp->d_name, dp->d_name, &list, false);
+		 * }
+		 * else
+		 * {
+		 * buffer = allocBuf(buffer, (char *)dirpath, dp->d_name);
+		 * statinfo(buffer, dp->d_name, &list, true);
+		 * }
+		 */
 	}
 
 	print_list_safe(&list, list.head, ncase);

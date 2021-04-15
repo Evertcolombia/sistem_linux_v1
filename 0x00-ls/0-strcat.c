@@ -1,3 +1,4 @@
+#include "ls.h"
 /**
  * *_strcat - concatenate two strings
  * @dest: pointer to a string
