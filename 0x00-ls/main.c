@@ -13,10 +13,5 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	if (argc == 1)
 		listFiles(".");
-	/*else
-	{
-		for (argv++; *argv; argv++)
-			listFiles(*argv);
-	}*/
 	exit(EXIT_SUCCESS);
 }
