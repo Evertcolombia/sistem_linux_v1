@@ -10,18 +10,16 @@
 DIR *open_directory(DIR *dirp, char *path)
 {
 	char *msg;
-	int errnum;
 
 	dirp = opendir(path);
 	if (dirp == NULL)
 	{
-		errnum = errno;
-		if (errnum == 2)
+		if(errno == ENOENT)
 		{
 			msg = "No such file or directory";
 			fprintf(stderr, "hls: cannot access '%s': %s\n", path, msg);
 		}
-		else if (errnum == 13)
+		else if (errno == EACCES)
 		{
 			msg = "Permission denied";
 			fprintf(stderr, "hls: cannot access %s: %s\n", path, msg);
