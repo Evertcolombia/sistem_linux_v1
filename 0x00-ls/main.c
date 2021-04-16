@@ -29,31 +29,38 @@ int main(int argc, char *argv[])
 			else
 				listFiles(*(++argv), argc, f_ops);
 		}
-		else {
+		else
+		{
 			argv += 1;
 			if (*argv)
 			{
 				for (; *argv; argv++)
 					listFiles(*argv, argc, f_ops);
-		
 			}
 		}
-	
 	}
 	return (0);
 }
+
+/**
+ * arv_mannager - mannage argv flags
+ * @arv: char to pointer array
+ * @ar_opts: struct to save flags
+ *
+ * Return: flags struct
+ */
 _opts *arv_mannager(char *arv[], _opts *ar_opts)
 {
 	char *p;
 
 	if (arv[1][0] == '-' && arv[1][1] != '\0')
 	{
-		p =  (char*) (arv[1] + 1);
-		while(*p)
+		p =  (char *) (arv[1] + 1);
+		while (*p)
 		{
 			if (*p == '1')
 				ar_opts->f1 = 1;
-			else if(*p == 'a')
+			else if (*p == 'a')
 				ar_opts->fa = 1;
 			else
 			{
@@ -63,5 +70,5 @@ _opts *arv_mannager(char *arv[], _opts *ar_opts)
 			p++;
 		}
 	}
-	return(ar_opts);
+	return (ar_opts);
 }

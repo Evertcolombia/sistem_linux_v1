@@ -13,9 +13,12 @@
 #include <errno.h>
 
 /**
- * struct
+ * struct flags_opts - flags struct
+ *
+ * @fa: int to flag a
+ * @f1: int to flag 1
+ * @path: path
  */
-
 typedef struct flags_opts
 {
 	int fa;
@@ -23,6 +26,7 @@ typedef struct flags_opts
 	char *path;
 } _opts;
 
+/* arguments mannager prototypes */
 _opts *arv_mannager(char *arv[], _opts *ar_opts);
 
 /**
@@ -65,7 +69,7 @@ void list_init(ls_c *list, void (*destroy)(void *name));
 void list_destroy(ls_c *list);
 int list_ins_next(ls_c *list, ls_n *element, const void *name);
 int list_rem_next(ls_c *list, ls_n *element, void **name);
-void print_list_safe(ls_c *list, ls_n *head, int ncase);
+void print_list_safe(ls_c *list, ls_n *head);
 
 #define list_size(list) ((list)->size)
 #define list_head(list) ((list)->head)
@@ -92,9 +96,11 @@ int _strncmp(char *s1, char *s2, int n);
 void listFiles(const char *dirpath, int argc, _opts *ar_opts);
 int statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
 DIR *open_directory(DIR *dirp, char *path, ls_c *list);
-void print_safe(int arc, ls_c *list, int ncase, char *copy);
+void print_safe(int arc, ls_c *list,  char *copy);
 
 /* other helpers*/
 char *allocBuf(char *dest, char *path, char *name);
 void error_mannager(int errid, bool isDir, char *path, ls_c *list);
+int get_no_flags(char *name, char *path, ls_c *list);
+
 #endif /* _LS_H_ */

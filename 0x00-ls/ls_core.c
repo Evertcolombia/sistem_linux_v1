@@ -23,6 +23,7 @@ DIR *open_directory(DIR *dirp, char *path, ls_c *list)
  * listFiles - list files from a dir path
  * @dirpath: pointer to pathname
  * @arc: int
+ * @ar_opts: flag structs
  *
  * Return: None
  */
@@ -30,37 +31,24 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 {
 	DIR *dirp = NULL;
 	struct dirent *dp;
-	char *buffer, *copy = NULL;
-	int ncase = 0;
+	char *copy = NULL;
 	ls_c list;
 
 	list_init(&list, NULL);
 	dirp = open_directory(dirp, (char *) dirpath, &list);
 
-	if (!ar_opts)
-		printf("sisas nea\n");
-	(void) ar_opts;
 	copy = (char *) dirpath;
 	if (_strcmp((char *) dirpath, "..") == 0)
 		dirpath = "../";
 
 	while ((dp = readdir(dirp)))
 	{
-		if (_strcmp(dp->d_name, ".") == 0 || _strcmp(dp->d_name, "..") == 0)
-			continue;
-
-		if (_strcmp((char *)dirpath, ".") == 0)
+		if (ar_opts->fa == 0 && ar_opts->f1 == 0)
 		{
-			ncase = 0;
-			statinfo(dp->d_name, dp->d_name, &list, false);
-		}
-		else
-		{
-			buffer = allocBuf(buffer, (char *)dirpath, dp->d_name);
-			statinfo(buffer, dp->d_name, &list, true);
+			get_no_flags(dp->d_name, (char *) dirpath, &list);
 		}
 	}
-	print_safe(arc, &list, ncase, copy);
+	print_safe(arc, &list, copy);
 	if (closedir(dirp) == -1)
 	{
 		perror("closedir");
@@ -72,17 +60,16 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
  * print_safe - print safe
  * @arc: int
  * @list: linked l controller
- * @ncase: int
  * @copy: char pointer
  *
  * Retur: none
  */
-void print_safe(int arc, ls_c *list, int ncase, char *copy)
+void print_safe(int arc, ls_c *list, char *copy)
 {
 	if (arc > 2)
 		fprintf(stdout, "%s:\n", copy);
 
-	print_list_safe(list, list->head, ncase);
+	print_list_safe(list, list->head);
 
 	if (arc > 2 && list->size > 0)
 		fprintf(stdout, "%c", '\n');

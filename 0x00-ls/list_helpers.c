@@ -107,9 +107,8 @@ int list_rem_next(ls_c *list, ls_n *element, void **name)
  * print_list_safe - print linked list
  * @list: list control
  * @head: head of the list
- * @ncase: case o use
  */
-void print_list_safe(ls_c *list, ls_n *head, int ncase)
+void print_list_safe(ls_c *list, ls_n *head)
 {
 	int i = 0, size = 0;
 	ls_n *cp = head;
@@ -120,14 +119,6 @@ void print_list_safe(ls_c *list, ls_n *head, int ncase)
 
 	while (i < size)
 	{
-		if (ncase == 0)
-		{
-			if (_strncmp(cp->name, ".", 1) == 0)
-			{
-				cp = cp->next, i++;
-				continue;
-			}
-		}
 		if (i + 1 == size)
 			fprintf(stdout, "%s\n", cp->name);
 		else
