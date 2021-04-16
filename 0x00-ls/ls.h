@@ -13,6 +13,19 @@
 #include <errno.h>
 
 /**
+ * struct
+ */
+
+typedef struct flags_opts
+{
+	int fa;
+	int f1;
+	char *path;
+} _opts;
+
+_opts *arv_mannager(char *arv[], _opts *ar_opts);
+
+/**
  * struct ls_node  - our struct
  *
  * @name: name of the file / dir
@@ -76,7 +89,7 @@ char *_strncpy(char *dest, char *src, int n);
 int _strncmp(char *s1, char *s2, int n);
 
 /* core prototypes */
-void listFiles(const char *dirpath, int argc);
+void listFiles(const char *dirpath, int argc, _opts *ar_opts);
 int statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
 DIR *open_directory(DIR *dirp, char *path, ls_c *list);
 void print_safe(int arc, ls_c *list, int ncase, char *copy);

@@ -26,7 +26,7 @@ DIR *open_directory(DIR *dirp, char *path, ls_c *list)
  *
  * Return: None
  */
-void listFiles(const char *dirpath, int arc)
+void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 {
 	DIR *dirp = NULL;
 	struct dirent *dp;
@@ -37,6 +37,9 @@ void listFiles(const char *dirpath, int arc)
 	list_init(&list, NULL);
 	dirp = open_directory(dirp, (char *) dirpath, &list);
 
+	if (!ar_opts)
+		printf("sisas nea\n");
+	(void) ar_opts;
 	copy = (char *) dirpath;
 	if (_strcmp((char *) dirpath, "..") == 0)
 		dirpath = "../";

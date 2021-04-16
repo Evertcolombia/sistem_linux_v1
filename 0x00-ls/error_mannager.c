@@ -15,18 +15,16 @@ void error_mannager(int errid, bool isDir, char *path, ls_c *list)
 	{
 		msg = "No such file or directory";
 		fprintf(stderr, "hls: cannot access '%s': %s\n", path, msg);
-		exit(2);
 	}
 	else if (errid == EACCES)
 	{
 		msg = "Permission denied";
 		fprintf(stderr, "hls: cannot open directory '%s': %s\n", path, msg);
-		exit(2);
 	}
 	else if (errid == ENOTDIR)
 	{
 		(void) isDir;
 		(void) list;
-		exit(2);
 	}
+	exit(EXIT_FAILURE);
 }
