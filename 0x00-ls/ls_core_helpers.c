@@ -11,7 +11,7 @@
 
 int get_no_flags(char *name, char *path, ls_c *list)
 {
-	char *buff = NULL;
+	char *buff = NULL, *p = NULL, *pc = "../";
 
 	if (_strcmp(name, ".") == 0 || _strcmp(name, "..") == 0)
 		return (0);
@@ -23,7 +23,15 @@ int get_no_flags(char *name, char *path, ls_c *list)
 		statinfo(path, name, list, false);
 	else
 	{
-		buff = allocBuf(buff, path, name);
+		p = _strstr(path, pc);
+		if (p != NULL)
+		{
+			buff = allocBuf(buff, path, name, NULL);
+		}
+		else
+		{
+			buff = allocBuf(buff, path, name, "/");
+		}
 		return (statinfo(buff, name, list, true));
 	}
 	return (0);

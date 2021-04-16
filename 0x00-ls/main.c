@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
 		f_ops = arv_mannager(argv, f_ops);
 		if (argc == 2)
 		{
-			if (f_ops->fa != 0 || f_ops->f1 != 0)
+			if (f_ops->fa == 1 || f_ops->f1 == 1)
 				listFiles(".", argc, f_ops);
 			else
-				listFiles(*(++argv), argc, f_ops);
+				listFiles(argv[1], argc, f_ops);
 		}
 		else
 		{
@@ -35,7 +35,10 @@ int main(int argc, char *argv[])
 			if (*argv)
 			{
 				for (; *argv; argv++)
-					listFiles(*argv, argc, f_ops);
+				{
+					if (*argv[0] != '-')
+						listFiles(*argv, argc, f_ops);
+				}
 			}
 		}
 	}
@@ -52,22 +55,26 @@ int main(int argc, char *argv[])
 _opts *arv_mannager(char *arv[], _opts *ar_opts)
 {
 	char *p;
+	int i;
 
-	if (arv[1][0] == '-' && arv[1][1] != '\0')
+	for (i = 0; arv[i]; i++)
 	{
-		p =  (char *) (arv[1] + 1);
-		while (*p)
+		if (arv[i][0] == '-' && arv[i][1] != '\0')
 		{
-			if (*p == '1')
-				ar_opts->f1 = 1;
-			else if (*p == 'a')
-				ar_opts->fa = 1;
-			else
+			p =  (char *) (arv[i] + 1);
+			while (*p)
 			{
-				perror("unknown flag");
-				exit(EXIT_FAILURE);
+				if (*p == '1')
+					ar_opts->f1 = 1;
+				else if (*p == 'a')
+					ar_opts->fa = 1;
+				else
+				{
+					perror("unknown flag");
+					exit(EXIT_FAILURE);
+				}
+				p++;
 			}
-			p++;
 		}
 	}
 	return (ar_opts);

@@ -91,6 +91,7 @@ char *_strcpy(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 char *_strncpy(char *dest, char *src, int n);
 int _strncmp(char *s1, char *s2, int n);
+char *_strstr(char *haystack, char *needle);
 
 /* core prototypes */
 void listFiles(const char *dirpath, int argc, _opts *ar_opts);
@@ -99,7 +100,7 @@ DIR *open_directory(DIR *dirp, char *path, ls_c *list);
 void print_safe(int arc, ls_c *list,  char *copy);
 
 /* other helpers*/
-char *allocBuf(char *dest, char *path, char *name);
+char *allocBuf(char *dest, char *path, char *name, char *com);
 void error_mannager(int errid, bool isDir, char *path, ls_c *list);
 int get_no_flags(char *name, char *path, ls_c *list);
 

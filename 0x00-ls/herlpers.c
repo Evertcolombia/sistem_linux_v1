@@ -5,23 +5,29 @@
  * @dest: destine
  * @path: pointer
  * @name: pointer
+ * @com: char comparision
  *
  * Return: pointer to char
  */
 
-char *allocBuf(char *dest, char *path, char *name)
+char *allocBuf(char *dest, char *path, char *name, char *com)
 {
 	int len = 0;
 
-	len = 1 + _strlen(path) + _strlen(name);
+	if (com != NULL)
+		len = 1 + _strlen(com) + _strlen(path) + _strlen(name);
+	else
+		len = 1 + _strlen(path) + _strlen(name);
 	dest = (char *) malloc(len * sizeof(char));
 	if (!dest)
 	{
-		fprintf(stderr, "%s\n", "Error in malloc");
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-
 	dest = _strcpy(dest, path);
+	if (com != NULL)
+		dest = _strcat(dest, com);
 	dest = _strcat(dest, name);
+
 	return (dest);
 }
