@@ -118,8 +118,8 @@ void print_list_safe(ls_c *list, ls_n *head, _opts *_opts)
 	if (size == 0)
 		return;
 
-	if (_opts->count == 0)
-		print_horizontal(size, cp);
-	else
+	if (_opts->f1 > 0)
 		print_vertical(size, cp);
+	else
+		print_horizontal(size, cp);
 }

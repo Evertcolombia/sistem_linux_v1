@@ -39,17 +39,14 @@ int get_flags(char *name, char *path, ls_c *list, _opts *_opts)
 {
 	char *buff = NULL;
 
-	/*
-	 * if (_opts->fa != 0)
-	*{
-	*	//
-	*}
-	*/
-	if (_opts->f1 != 0)
+	if (_opts->fa == 0)
 	{
 		if (pass_hidden(name) == 0)
 			return (0);
+	}
 
+	else if (_opts->fa != 0)
+	{
 		if (_strcmp(path, ".") == 0)
 			statinfo(path, name, list, false);
 		else
