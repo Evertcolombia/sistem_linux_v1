@@ -71,20 +71,15 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 {
 	static int count = 1;
+	(void) arc;
 
-	if (arc > 2 && list->size > 0 && _opts->count == 0)
-		fprintf(stdout, "%s:\n", copy);
-
-	if (arc > 3 && _opts->count != 0)
+	if (_opts->pathCount >= 2 && list->size > 0)
 		fprintf(stdout, "%s:\n", copy);
 
 	print_list_safe(list, list->head, _opts);
-
-	if (arc > 2 && list->size > 0 && count < (arc - 1))
+	if (_opts->pathCount >= 2 &&  list->size >  0 && count < _opts->pathCount)
 		fprintf(stdout, "%c", '\n');
 
-	if (_opts->f1 > 0 && count < (arc - 2))
-		fprintf(stdout, "%c", '\n');
 	count++;
 	list_destroy(list);
 }

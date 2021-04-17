@@ -68,10 +68,7 @@ int print_vertical(int size, ls_n *head)
 
 	while (i < size)
 	{
-		if (i + 1 == size)
-			fprintf(stdout, "%s", head->name);
-		else
-			fprintf(stdout, "%s\n", head->name);
+		fprintf(stdout, "%s\n", head->name);
 		head = head->next;
 		i++;
 	}
