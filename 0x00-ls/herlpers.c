@@ -32,6 +32,13 @@ char *allocBuf(char *dest, char *path, char *name, char *com)
 	return (dest);
 }
 
+/**
+ * print_horizontal - print horizontal form
+ * @size: size of the list
+ * @head: head of the list
+ *
+ * Return: int
+ */
 int print_horizontal(int size, ls_n *head)
 {
 	int i = 0;
@@ -48,6 +55,13 @@ int print_horizontal(int size, ls_n *head)
 	return (i);
 }
 
+/**
+ * print_vertical - print in vertical form
+ * @size: size of the list
+ * @head: head of the list
+ *
+ * Return: int
+ */
 int print_vertical(int size, ls_n *head)
 {
 	int i = 0;

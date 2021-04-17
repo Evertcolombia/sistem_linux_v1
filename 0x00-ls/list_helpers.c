@@ -107,6 +107,7 @@ int list_rem_next(ls_c *list, ls_n *element, void **name)
  * print_list_safe - print linked list
  * @list: list control
  * @head: head of the list
+ * @_opts: flags structure
  */
 void print_list_safe(ls_c *list, ls_n *head, _opts *_opts)
 {

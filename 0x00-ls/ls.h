@@ -17,7 +17,7 @@
  *
  * @fa: int to flag a
  * @f1: int to flag 1
- * @pcount: conunt of flags
+ * @count: conunt of flags
  */
 typedef struct flags_opts
 {

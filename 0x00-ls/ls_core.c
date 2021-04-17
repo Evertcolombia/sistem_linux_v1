@@ -65,7 +65,7 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
  * @arc: int
  * @list: linked l controller
  * @copy: char pointer
- *
+ * @_opts: flags structure
  * Retur: none
  */
 void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
