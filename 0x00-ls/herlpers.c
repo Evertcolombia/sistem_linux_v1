@@ -31,3 +31,35 @@ char *allocBuf(char *dest, char *path, char *name, char *com)
 
 	return (dest);
 }
+
+int print_horizontal(int size, ls_n *head)
+{
+	int i = 0;
+
+	while (i < size)
+	{
+		if (i + 1 == size)
+			fprintf(stdout, "%s\n", head->name);
+		else
+			fprintf(stdout, "%s  ", head->name);
+		head = head->next;
+		i++;
+	}
+	return (i);
+}
+
+int print_vertical(int size, ls_n *head)
+{
+	int i = 0;
+
+	while (i < size)
+	{
+		if (i + 1 == size)
+			fprintf(stdout, "%s", head->name);
+		else
+			fprintf(stdout, "%s\n", head->name);
+		head = head->next;
+		i++;
+	}
+	return (i);
+}

@@ -43,12 +43,16 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 
 	while ((dp = readdir(dirp)))
 	{
-		if (ar_opts->fa == 0 && ar_opts->f1 == 0)
+		if (ar_opts->count == 0)
 		{
 			get_no_flags(dp->d_name, (char *) dirpath, &list);
 		}
+		else
+		{
+			get_flags(dp->d_name, (char *) dirpath, &list, ar_opts);
+		}
 	}
-	print_safe(arc, &list, copy);
+	print_safe(arc, &list, copy, ar_opts);
 	if (closedir(dirp) == -1)
 	{
 		perror("closedir");
@@ -64,18 +68,23 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
  *
  * Retur: none
  */
-void print_safe(int arc, ls_c *list, char *copy)
+void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 {
 	static int count = 1;
 
-	if (arc > 2 && list->size > 0)
+	if (arc > 2 && list->size > 0 && _opts->count == 0)
 		fprintf(stdout, "%s:\n", copy);
 
-	print_list_safe(list, list->head);
+	if (arc > 3 && _opts->count != 0)
+		fprintf(stdout, "%s:\n", copy);
+
+	print_list_safe(list, list->head, _opts);
 
 	if (arc > 2 && list->size > 0 && count < (arc - 1))
 		fprintf(stdout, "%c", '\n');
 
+	if (_opts->f1 > 0 && count < (arc - 2))
+		fprintf(stdout, "%c", '\n');
 	count++;
 	list_destroy(list);
 }

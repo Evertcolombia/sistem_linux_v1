@@ -108,23 +108,17 @@ int list_rem_next(ls_c *list, ls_n *element, void **name)
  * @list: list control
  * @head: head of the list
  */
-void print_list_safe(ls_c *list, ls_n *head)
+void print_list_safe(ls_c *list, ls_n *head, _opts *_opts)
 {
-	int i = 0, size = 0;
+	int size = 0;
 	ls_n *cp = head;
 
 	size = list_size(list);
 	if (size == 0)
 		return;
 
-	while (i < size)
-	{
-		if (i + 1 == size)
-			fprintf(stdout, "%s\n", cp->name);
-		else
-			fprintf(stdout, "%s  ", cp->name);
-		cp = cp->next;
-		i++;
-	}
+	if (_opts->count == 0)
+		print_horizontal(size, cp);
+	else
+		print_vertical(size, cp);
 }
-

@@ -17,13 +17,13 @@
  *
  * @fa: int to flag a
  * @f1: int to flag 1
- * @path: path
+ * @pcount: conunt of flags
  */
 typedef struct flags_opts
 {
 	int fa;
 	int f1;
-	char *path;
+	int count;
 } _opts;
 
 /* arguments mannager prototypes */
@@ -69,7 +69,7 @@ void list_init(ls_c *list, void (*destroy)(void *name));
 void list_destroy(ls_c *list);
 int list_ins_next(ls_c *list, ls_n *element, const void *name);
 int list_rem_next(ls_c *list, ls_n *element, void **name);
-void print_list_safe(ls_c *list, ls_n *head);
+void print_list_safe(ls_c *list, ls_n *head, _opts *opts);
 
 #define list_size(list) ((list)->size)
 #define list_head(list) ((list)->head)
@@ -97,11 +97,17 @@ char *_strstr(char *haystack, char *needle);
 void listFiles(const char *dirpath, int argc, _opts *ar_opts);
 int statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
 DIR *open_directory(DIR *dirp, char *path, ls_c *list);
-void print_safe(int arc, ls_c *list,  char *copy);
+void print_safe(int arc, ls_c *list,  char *copy, _opts *_opts);
 
 /* other helpers*/
 char *allocBuf(char *dest, char *path, char *name, char *com);
 void error_mannager(int errid, bool isDir, char *path, ls_c *list);
-int get_no_flags(char *name, char *path, ls_c *list);
+int print_vertical(int size, ls_n *head);
+int print_horizontal(int size, ls_n *head);
 
+/* Flags helpers */
+int get_no_flags(char *name, char *path, ls_c *list);
+int pass_hidden(char *name);
+char *path_controller(char *path, char *name);
+int get_flags(char *name, char *path, ls_c *list, _opts *_opst);
 #endif /* _LS_H_ */
