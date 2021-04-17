@@ -18,12 +18,14 @@
  * @fa: int to flag a
  * @f1: int to flag 1
  * @count: conunt of flags
+ * @pathCount: count of args with path
  */
 typedef struct flags_opts
 {
 	int fa;
 	int f1;
 	int count;
+	int pathCount;
 } _opts;
 
 /* arguments mannager prototypes */

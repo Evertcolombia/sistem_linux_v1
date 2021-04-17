@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	if (argc > 1 && _strcmp(argv[1], "--help") == 0)
 		exit(EXIT_FAILURE);
 
-	ar_opts.fa = 0, ar_opts.f1 = 0, ar_opts.count = 0;
+	ar_opts.pathCount = ar_opts.fa = ar_opts.f1 = ar_opts.count = 0;
 	f_ops = &ar_opts;
 
 	if (argc == 1)
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 		f_ops = arv_mannager(argv, f_ops);
 		if (argc == 2)
 		{
-			if (f_ops->fa == 1 || f_ops->f1 == 1)
+			if (f_ops->count > 0)
 				listFiles(".", argc, f_ops);
 			else
 				listFiles(argv[1], argc, f_ops);
@@ -32,7 +32,10 @@ int main(int argc, char *argv[])
 		else
 		{
 			argv += 1;
-			if (*argv)
+			if (f_ops->pathCount == 0 && f_ops->count > 0)
+				listFiles(".", argc, f_ops);
+
+			else if (*argv)
 			{
 				for (; *argv; argv++)
 				{
@@ -57,7 +60,7 @@ _opts *arv_mannager(char *arv[], _opts *ar_opts)
 	char *p;
 	int i;
 
-	for (i = 0; arv[i]; i++)
+	for (i = 1; arv[i]; i++)
 	{
 		if (arv[i][0] == '-' && arv[i][1] != '\0')
 		{
@@ -71,6 +74,8 @@ _opts *arv_mannager(char *arv[], _opts *ar_opts)
 				p++;
 			}
 		}
+		else
+			ar_opts->pathCount++;
 	}
 	return (ar_opts);
 }
