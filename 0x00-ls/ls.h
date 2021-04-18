@@ -18,12 +18,14 @@
  * @fa: int to flag a
  * @f1: int to flag 1
  * @count: conunt of flags
+ * @fA: count of fA
  * @pathCount: count of args with path
  */
 typedef struct flags_opts
 {
 	int fa;
 	int f1;
+	int fA;
 	int count;
 	int pathCount;
 } _opts;
@@ -109,7 +111,7 @@ int print_horizontal(int size, ls_n *head);
 
 /* Flags helpers */
 int get_no_flags(char *name, char *path, ls_c *list);
-int pass_hidden(char *name);
+int pass_hidden(char *name, bool complete);
 char *path_controller(char *path, char *name);
 int get_flags(char *name, char *path, ls_c *list, _opts *_opst);
 #endif /* _LS_H_ */

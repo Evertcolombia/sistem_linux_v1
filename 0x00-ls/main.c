@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
 	if (argc > 1 && _strcmp(argv[1], "--help") == 0)
 		exit(EXIT_FAILURE);
 
-	ar_opts.pathCount = ar_opts.fa = ar_opts.f1 = ar_opts.count = 0;
+	ar_opts.fA = ar_opts.fa = ar_opts.f1 = 0;
+	ar_opts.count = ar_opts.pathCount = 0;
 	f_ops = &ar_opts;
 
 	if (argc == 1)
@@ -71,6 +72,8 @@ _opts *arv_mannager(char *arv[], _opts *ar_opts)
 					ar_opts->f1 = 1, ar_opts->count++;
 				else if (*p == 'a')
 					ar_opts->fa = 1, ar_opts->count++;
+				else if (*p == 'A')
+					ar_opts->fA = 1, ar_opts->count++;
 				p++;
 			}
 		}
