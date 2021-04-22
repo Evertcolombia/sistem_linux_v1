@@ -7,7 +7,7 @@
  * @path: char path
  * @list: linked list controller
  */
-int error_mannager(int errid, char *path)
+int error_mannager(int errid, char *path, ls_c *f_list, _opts *opts)
 {
 	char *msg = NULL;
 
@@ -24,7 +24,11 @@ int error_mannager(int errid, char *path)
 		exit(EXIT_FAILURE);
 	}
 	else if (errid == ENOTDIR)
+	{
+		print_files(f_list, opts);
+		list_destroy(f_list);
 		return (1);
+	}
 
 	return (0);
 }

@@ -101,12 +101,12 @@ char *_strstr(char *haystack, char *needle);
 /* core prototypes */
 void listFiles(const char *dirpath, int argc, _opts *ar_opts, ls_c *f_list);
 int statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
-DIR *open_directory(DIR *dirp, char *path);
+DIR *open_directory(DIR *dirp, char *path, ls_c *f_list, _opts *opts);
 void print_safe(int arc, ls_c *list,  char *copy, _opts *_opts);
 
 /* other helpers*/
 char *allocBuf(char *dest, char *path, char *name, char *com);
-int error_mannager(int errid, char *path);
+int error_mannager(int errid, char *path, ls_c *f_list, _opts *opts);
 int print_vertical(int size, ls_n *head);
 int print_horizontal(int size, ls_n *head);
 

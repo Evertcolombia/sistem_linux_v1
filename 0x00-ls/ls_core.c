@@ -8,12 +8,12 @@
  *
  * Return: DIR stream on success
  */
-DIR *open_directory(DIR *dirp, char *path)
+DIR *open_directory(DIR *dirp, char *path, ls_c *f_list, _opts *opts)
 {
 	dirp = opendir(path);
 	if (dirp == NULL)
 	{
-		if(error_mannager(errno, path) == 1)
+		if(error_mannager(errno, path, f_list, opts) == 1)
 			return (NULL);
 	}
 
@@ -36,11 +36,12 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 	ls_c list;
 
 	list_init(&list, NULL);
-	dirp = open_directory(dirp, (char *) dirpath);
+	dirp = open_directory(dirp, (char *) dirpath, f_list, ar_opts);
 
 	if (dirp == NULL && ar_opts->pathCount == 0)
 	{
-		print_files(f_list, ar_opts);
+		/*print_files(f_list, ar_opts);
+		list_destroy(f_list);*/
 		return;
 	}
 	else if (dirp == NULL)
@@ -62,10 +63,7 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 		}
 	}
 	if (ar_opts->fileCount > 0)
-	{
 		print_files(f_list, ar_opts);
-		ar_opts->fileCount = 0;
-	}
 	print_safe(arc, &list, copy, ar_opts);
 	if (closedir(dirp) == -1)
 	{
@@ -100,9 +98,14 @@ void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 {
 	static int count = 1;
 	(void) arc;
+
 	if (_opts->pathCount >= 2 && list->size > 0)
 		fprintf(stdout, "%s:\n", copy);
-
+	else if (_opts->pathCount == 1 && _opts->fileCount > 0)
+	{
+		_opts->fileCount = 0; 
+		fprintf(stdout, "%s:\n", copy);
+	}
 	print_list_safe(list, list->head, _opts);
 	if (_opts->pathCount >= 2 &&  list->size >  0 && count < _opts->pathCount)
 		fprintf(stdout, "%c", '\n');
