@@ -4,6 +4,13 @@ void keep_sort(int (*array)[2], ssize_t low, ssize_t high, size_t size);
 ssize_t partition(int (*array)[2], ssize_t low, ssize_t high);
 void do_swap(int (*array)[2], int pos1, int pos2);
 
+/**
+ * print_race_state - print cars in the race
+ * @cars: int of array
+ * @size: size of the array
+ *
+ * Return: None
+ */
 void print_race_state(int (*cars)[2], unsigned int size)
 {
 	unsigned int i = 0;
@@ -60,7 +67,6 @@ void keep_sort(int (*array)[2], ssize_t low, ssize_t high, size_t size)
  * @array: list array
  * @low: low part of the array
  * @high: high part of the array
- * @size: size array
  *
  * Return: pivot point in the partitioned array
  */
@@ -78,7 +84,7 @@ ssize_t partition(int (*array)[2], ssize_t low, ssize_t high)
 		{
 			i++;
 			if (i != j)
-				 do_swap(array, i, j);
+				do_swap(array, i, j);
 		}
 	}
 
@@ -86,8 +92,7 @@ ssize_t partition(int (*array)[2], ssize_t low, ssize_t high)
 	{
 		do_swap(array, (i + 1), high);
 	}
-	return(i + 1);
-	
+	return (i + 1);
 }
 
 /**
@@ -111,10 +116,17 @@ void do_swap(int (*array)[2], int pos1, int pos2)
 }
 
 
-void race_state(int *id, size_t size){
-
+/**
+ * race_state - main funciont on race
+ * @id: id of arrays
+ * @size: size of the array
+ *
+ * Return: None
+ */
+void race_state(int *id, size_t size)
+{
 	static int cars[18][2];
-	static unsigned int count = 0;
+	static unsigned int count;
 
 	unsigned int i = 0, c = 0;
 
