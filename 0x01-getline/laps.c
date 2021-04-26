@@ -24,6 +24,31 @@ void print_race_state(int (*cars)[2], unsigned int size)
 }
 
 /**
+ * binary_search - binary sewarch in array 2D
+ * @array: 2d array
+ * @low: low pos
+ * @high: high pos
+ * @search: search num
+ *
+ * Return: index on success
+ */
+int binary_search(int (*array)[2], int low, int high, int search)
+{
+	int med;
+
+	if (low > high)
+		return (-1); /* Not found*/
+
+	med = (low + high) / 2;
+
+	if (array[med][0] == search)
+		return (med);
+	else if (search > array[med][0])
+		return (binary_search(array, (med + 1), high, search));
+	else
+		return (binary_search(array, low, (med - 1), search));
+}
+/**
  * quick_sort -sorting algoritmh
  * @array: list array
  * @size: size array
@@ -125,10 +150,11 @@ void do_swap(int (*array)[2], int pos1, int pos2)
  */
 void race_state(int *id, size_t size)
 {
-	static int cars[18][2];
+	static int cars[100][2];
 	static unsigned int count;
 
-	unsigned int i = 0, c = 0;
+	unsigned int c = 0;
+	int low = 0, res = 0, i = 0;
 
 	if (size == 0)
 		return;
@@ -139,24 +165,26 @@ void race_state(int *id, size_t size)
 		{
 			cars[count][0] = id[c], cars[count][1] = 0;
 			printf("Car %d joined the race\n", cars[count][0]);
-			count++;
+			count++, i = 1;
 		}
 	}
 	else
 	{
-		for (i = 0, c = 0; i < count || c < size; i++)
+		for (c = 0; c < size; c++)
 		{
-			if (cars[i][0] == id[c])
-				cars[i][1] += 1, c++;
-			else if (i + 1 == count && c + 1 == size)
+			res = binary_search(cars, low, count, id[c]);
+			if (res == -1)
 			{
-				i++;
-				cars[i][0] = id[c], cars[i][1] = 0;
-				printf("Car %d joined the race\n", cars[i][0]);
-				count++, c++;
+				cars[count][0] = id[c], cars[count][1] = 0;
+				printf("Car %d joined the race\n", cars[count][0]);
+				count++, i = 1;
 			}
+			else
+				cars[res][1] += 1;
 		}
 	}
-	quick_sort(cars, count);
+
+	if (i > 0)
+		quick_sort(cars, count);
 	print_race_state(cars, count);
 }
