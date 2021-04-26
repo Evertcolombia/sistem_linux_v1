@@ -1,7 +1,4 @@
 #include "_getline.h"
-#include <stdio.h>
-#include <string.h>
-#define READ_SIZE 1
 
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
@@ -22,12 +19,11 @@ char *_getline(const int fd)
 		return (NULL);
 
 	count = get_l(fd, buf, count, count_ch);
-	if (count == 0)
+	if (count == 0 || (count == -1))
 	{
 		free(buf);
 		return (NULL);
 	}
-
 	return (buf);
 }
 
@@ -56,9 +52,7 @@ int get_l(const int fd, char *buf, int count, int count_ch)
 	{
 		count += count_ch;
 		buf = (char *) _realloc(buf, count, count);
-		if (buf)
-			return (get_l(fd, buf, count, count_ch));
-		return (count);
+		return (get_l(fd, buf, count, count_ch));
 	}
 }
 
