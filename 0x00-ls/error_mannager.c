@@ -10,7 +10,8 @@
 int error_mannager(int errid, char *path, ls_c *f_list, _opts *opts)
 {
 	char *msg = NULL;
-
+	(void) f_list;
+	(void) opts;
 	if (errid == ENOENT)
 	{
 		msg = "No such file or directory";
@@ -23,12 +24,5 @@ int error_mannager(int errid, char *path, ls_c *f_list, _opts *opts)
 		fprintf(stderr, "hls: cannot open directory %s: %s\n", path, msg);
 		exit(EXIT_FAILURE);
 	}
-	else if (errid == ENOTDIR)
-	{
-		print_files(f_list, opts);
-		list_destroy(f_list);
-		return (1);
-	}
-
 	return (0);
 }

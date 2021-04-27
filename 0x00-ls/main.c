@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	ar_opts.count = ar_opts.pathCount = ar_opts.fileCount = 0;
 	f_ops = &ar_opts;
 	list_init(&f_list, NULL);
-	
+
 	if (argc == 1)
 		listFiles(".", argc, f_ops, NULL);
 	else if (argc >= 2)
@@ -47,8 +47,7 @@ int main(int argc, char *argv[])
 				}
 			}
 		}
-	}
-	list_destroy(&f_list);
+	} list_destroy(&f_list);
 	return (0);
 }
 
@@ -56,6 +55,7 @@ int main(int argc, char *argv[])
  * arv_mannager - mannage argv flags
  * @arv: char to pointer array
  * @ar_opts: struct to save flags
+ * @f_list: file list contrller
  *
  * Return: flags struct
  */

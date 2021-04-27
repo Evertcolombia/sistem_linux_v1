@@ -4,7 +4,8 @@
  * open_directory - list files from a dir path
  * @dirp: DIR strem pointer
  * @path: pointer to pathname
- * @list: linked list controller
+ * @f_list: linked list controller
+ * @opts: flags struct
  *
  * Return: DIR stream on success
  */
@@ -13,7 +14,7 @@ DIR *open_directory(DIR *dirp, char *path, ls_c *f_list, _opts *opts)
 	dirp = opendir(path);
 	if (dirp == NULL)
 	{
-		if(error_mannager(errno, path, f_list, opts) == 1)
+		if (error_mannager(errno, path, f_list, opts) == 1)
 			return (NULL);
 	}
 
@@ -25,6 +26,7 @@ DIR *open_directory(DIR *dirp, char *path, ls_c *f_list, _opts *opts)
  * @dirpath: pointer to pathname
  * @arc: int
  * @ar_opts: flag structs
+ * @f_list: file list controller
  *
  * Return: None
  */
@@ -39,18 +41,14 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 	dirp = open_directory(dirp, (char *) dirpath, f_list, ar_opts);
 
 	if (dirp == NULL && ar_opts->pathCount == 0)
-	{
-		/*print_files(f_list, ar_opts);
-		list_destroy(f_list);*/
 		return;
-	}
 	else if (dirp == NULL)
 		return;
 
 	copy = (char *) dirpath;
 	if (_strcmp((char *) dirpath, "..") == 0)
 		dirpath = "../";
-	
+
 	while ((dp = readdir(dirp)))
 	{
 		if (ar_opts->count == 0)
@@ -70,7 +68,6 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 		perror("closedir");
 		exit(EXIT_FAILURE);
 	}
-	return;
 }
 
 void print_files(ls_c *f_list, _opts *opts)
@@ -80,11 +77,11 @@ void print_files(ls_c *f_list, _opts *opts)
 		if (opts->f1 > 0)
 			print_vertical(list_size(f_list), f_list->head);
 		else
+		{
 			print_horizontal(list_size(f_list), f_list->head);
-		printf("\n");
-
+			printf("\n");
+		}
 	}
-	return;
 }
 /**
  * print_safe - print safe
@@ -103,7 +100,7 @@ void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 		fprintf(stdout, "%s:\n", copy);
 	else if (_opts->pathCount == 1 && _opts->fileCount > 0)
 	{
-		_opts->fileCount = 0; 
+		_opts->fileCount = 0;
 		fprintf(stdout, "%s:\n", copy);
 	}
 	print_list_safe(list, list->head, _opts);
