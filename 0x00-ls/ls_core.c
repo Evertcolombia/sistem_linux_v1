@@ -86,7 +86,9 @@ void print_files(ls_c *f_list, _opts *opts)
 			print_horizontal(list_size(f_list), f_list->head);
 			printf("\n");
 		}
+		opts->fileCount = 0;
 	}
+
 }
 /**
  * print_safe - print safe
