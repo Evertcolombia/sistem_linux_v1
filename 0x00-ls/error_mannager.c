@@ -3,15 +3,13 @@
 /**
  * error_mannager - errno controller
  * @errid: errno num
- * @isDir: know if is dir
  * @path: char path
- * @list: linked list controller
+ * Return: int
  */
-int error_mannager(int errid, char *path, ls_c *f_list, _opts *opts)
+int error_mannager(int errid, char *path)
 {
 	char *msg = NULL;
-	(void) f_list;
-	(void) opts;
+
 	if (errid == ENOENT)
 	{
 		msg = "No such file or directory";

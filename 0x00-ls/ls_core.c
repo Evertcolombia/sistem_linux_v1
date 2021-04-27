@@ -4,17 +4,15 @@
  * open_directory - list files from a dir path
  * @dirp: DIR strem pointer
  * @path: pointer to pathname
- * @f_list: linked list controller
- * @opts: flags struct
  *
  * Return: DIR stream on success
  */
-DIR *open_directory(DIR *dirp, char *path, ls_c *f_list, _opts *opts)
+DIR *open_directory(DIR *dirp, char *path)
 {
 	dirp = opendir(path);
 	if (dirp == NULL)
 	{
-		if (error_mannager(errno, path, f_list, opts) == 1)
+		if (error_mannager(errno, path) == 1)
 			return (NULL);
 	}
 
@@ -38,7 +36,7 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 	ls_c list;
 
 	list_init(&list, NULL);
-	dirp = open_directory(dirp, (char *) dirpath, f_list, ar_opts);
+	dirp = open_directory(dirp, (char *) dirpath);
 
 	if (dirp == NULL && ar_opts->pathCount == 0)
 		return;
@@ -70,6 +68,13 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 	}
 }
 
+/**
+ * print_files - printf files list
+ * @f_list: file list controller
+ * @opts: flags struct
+ *
+ * Return: None
+ */
 void print_files(ls_c *f_list, _opts *opts)
 {
 	if (list_size(f_list) > 0)
