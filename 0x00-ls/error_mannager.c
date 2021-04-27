@@ -22,5 +22,4 @@ int error_mannager(int errid, char *path)
 		fprintf(stderr, "hls: cannot open directory %s: %s\n", path, msg);
 		exit(EXIT_FAILURE);
 	}
-	return (0);
 }
