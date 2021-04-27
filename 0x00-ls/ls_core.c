@@ -4,16 +4,18 @@
  * open_directory - list files from a dir path
  * @dirp: DIR strem pointer
  * @path: pointer to pathname
- * @list: linked list controller
+ * @f_list: linked list controller
+ * @opts: flags struct
  *
  * Return: DIR stream on success
  */
-DIR *open_directory(DIR *dirp, char *path, ls_c *list)
+DIR *open_directory(DIR *dirp, char *path, ls_c *f_list, _opts *opts)
 {
 	dirp = opendir(path);
 	if (dirp == NULL)
 	{
-		error_mannager(errno, true, path, list);
+		if (error_mannager(errno, path, f_list, opts) == 1)
+			return (NULL);
 	}
 
 	return (dirp);
@@ -24,10 +26,11 @@ DIR *open_directory(DIR *dirp, char *path, ls_c *list)
  * @dirpath: pointer to pathname
  * @arc: int
  * @ar_opts: flag structs
+ * @f_list: file list controller
  *
  * Return: None
  */
-void listFiles(const char *dirpath, int arc, _opts *ar_opts)
+void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 {
 	DIR *dirp = NULL;
 	struct dirent *dp;
@@ -35,7 +38,12 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 	ls_c list;
 
 	list_init(&list, NULL);
-	dirp = open_directory(dirp, (char *) dirpath, &list);
+	dirp = open_directory(dirp, (char *) dirpath, f_list, ar_opts);
+
+	if (dirp == NULL && ar_opts->pathCount == 0)
+		return;
+	else if (dirp == NULL)
+		return;
 
 	copy = (char *) dirpath;
 	if (_strcmp((char *) dirpath, "..") == 0)
@@ -52,6 +60,8 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 			get_flags(dp->d_name, (char *) dirpath, &list, ar_opts);
 		}
 	}
+	if (ar_opts->fileCount > 0)
+		print_files(f_list, ar_opts);
 	print_safe(arc, &list, copy, ar_opts);
 	if (closedir(dirp) == -1)
 	{
@@ -60,6 +70,19 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 	}
 }
 
+void print_files(ls_c *f_list, _opts *opts)
+{
+	if (list_size(f_list) > 0)
+	{
+		if (opts->f1 > 0)
+			print_vertical(list_size(f_list), f_list->head);
+		else
+		{
+			print_horizontal(list_size(f_list), f_list->head);
+			printf("\n");
+		}
+	}
+}
 /**
  * print_safe - print safe
  * @arc: int
@@ -75,7 +98,11 @@ void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 
 	if (_opts->pathCount >= 2 && list->size > 0)
 		fprintf(stdout, "%s:\n", copy);
-
+	else if (_opts->pathCount == 1 && _opts->fileCount > 0)
+	{
+		_opts->fileCount = 0;
+		fprintf(stdout, "%s:\n", copy);
+	}
 	print_list_safe(list, list->head, _opts);
 	if (_opts->pathCount >= 2 &&  list->size >  0 && count < _opts->pathCount)
 		fprintf(stdout, "%c", '\n');

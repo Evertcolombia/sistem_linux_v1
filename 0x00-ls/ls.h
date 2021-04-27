@@ -28,10 +28,11 @@ typedef struct flags_opts
 	int fA;
 	int count;
 	int pathCount;
+	int fileCount;
 } _opts;
 
 /* arguments mannager prototypes */
-_opts *arv_mannager(char *arv[], _opts *ar_opts);
+//_opts *arv_mannager(char *arv[], _opts *ar_opts, ls_c *f_list);
 
 /**
  * struct ls_node  - our struct
@@ -98,14 +99,14 @@ int _strncmp(char *s1, char *s2, int n);
 char *_strstr(char *haystack, char *needle);
 
 /* core prototypes */
-void listFiles(const char *dirpath, int argc, _opts *ar_opts);
+void listFiles(const char *dirpath, int argc, _opts *ar_opts, ls_c *f_list);
 int statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
-DIR *open_directory(DIR *dirp, char *path, ls_c *list);
+DIR *open_directory(DIR *dirp, char *path, ls_c *f_list, _opts *opts);
 void print_safe(int arc, ls_c *list,  char *copy, _opts *_opts);
 
 /* other helpers*/
 char *allocBuf(char *dest, char *path, char *name, char *com);
-void error_mannager(int errid, bool isDir, char *path, ls_c *list);
+int error_mannager(int errid, char *path, ls_c *f_list, _opts *opts);
 int print_vertical(int size, ls_n *head);
 int print_horizontal(int size, ls_n *head);
 
@@ -114,4 +115,7 @@ int get_no_flags(char *name, char *path, ls_c *list);
 int pass_hidden(char *name, bool complete);
 char *path_controller(char *path, char *name);
 int get_flags(char *name, char *path, ls_c *list, _opts *_opst);
+
+_opts *arv_mannager(char *arv[], _opts *ar_opts, ls_c *f_list);
+void print_files(ls_c *f_list, _opts *opts);
 #endif /* _LS_H_ */
