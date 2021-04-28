@@ -20,7 +20,6 @@
  * @count: conunt of flags
  * @fA: count of fA
  * @pathCount: count of args with path
- * @fileCount: count of files paths
  */
 typedef struct flags_opts
 {
@@ -29,7 +28,6 @@ typedef struct flags_opts
 	int fA;
 	int count;
 	int pathCount;
-	int fileCount;
 } _opts;
 
 /* arguments mannager prototypes */
@@ -99,7 +97,7 @@ int _strncmp(char *s1, char *s2, int n);
 char *_strstr(char *haystack, char *needle);
 
 /* core prototypes */
-void listFiles(const char *dirpath, int argc, _opts *ar_opts, ls_c *f_list);
+void listFiles(const char *dirpath, int argc, _opts *ar_opts);
 int statinfo(const char *pathname, char *name, ls_c *list, bool isFree);
 DIR *open_directory(DIR *dirp, char *path);
 void print_safe(int arc, ls_c *list,  char *copy, _opts *_opts);
@@ -116,6 +114,5 @@ int pass_hidden(char *name, bool complete);
 char *path_controller(char *path, char *name);
 int get_flags(char *name, char *path, ls_c *list, _opts *_opst);
 
-_opts *arv_mannager(char *arv[], _opts *ar_opts, ls_c *f_list);
-void print_files(ls_c *f_list, _opts *opts);
+_opts *arv_mannager(char *arv[], _opts *ar_opts);
 #endif /* _LS_H_ */
