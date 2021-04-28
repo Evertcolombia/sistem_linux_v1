@@ -99,6 +99,11 @@ void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 
 	if (_opts->pathCount >= 2 && list->size > 0)
 		fprintf(stdout, "%s:\n", copy);
+	else if (_opts->pathCount == 1 && _opts->fileCount > 0)
+	{
+		_opts->fileCount = 0;
+		fprintf(stdout, "%s:\n", copy);
+	}
 	else if (_opts->pathCount == 1 && _opts->fileCount == 0)
 	{
 		_opts->fileCount = 0;
