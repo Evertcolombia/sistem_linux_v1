@@ -13,14 +13,14 @@ void error_mannager(int errid, char *path)
 	if (errid == ENOENT)
 	{
 		msg = "No such file or directory";
-		fprintf(stderr, "./hls: cannot access %s: %s\n", path, msg);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "hls: cannot access %s: %s\n", path, msg);
 	}
 	else if (errid == EACCES)
 	{
 		msg = "Permission denied";
-		fprintf(stderr, "./hls: cannot open directory %s: %s\n", path, msg);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "hls: cannot open directory %s: %s\n", path, msg);
 	}
+	else if (errid == ENOTDIR)
+		printf("%s\n", path);
 	exit(EXIT_FAILURE);
 }

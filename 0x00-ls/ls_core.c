@@ -23,11 +23,10 @@ DIR *open_directory(DIR *dirp, char *path)
  * @dirpath: pointer to pathname
  * @arc: int
  * @ar_opts: flag structs
- * @f_list: file list controller
  *
  * Return: None
  */
-void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
+void listFiles(const char *dirpath, int arc, _opts *ar_opts)
 {
 	DIR *dirp = NULL;
 	struct dirent *dp;
@@ -52,8 +51,6 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 			get_flags(dp->d_name, (char *) dirpath, &list, ar_opts);
 		}
 	}
-	if (ar_opts->fileCount > 0)
-		print_files(f_list, ar_opts);
 	print_safe(arc, &list, copy, ar_opts);
 	if (closedir(dirp) == -1)
 	{
@@ -62,28 +59,6 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 	}
 }
 
-/**
- * print_files - printf files list
- * @f_list: file list controller
- * @opts: flags struct
- *
- * Return: None
- */
-void print_files(ls_c *f_list, _opts *opts)
-{
-	if (list_size(f_list) > 0)
-	{
-		if (opts->f1 > 0)
-			print_vertical(list_size(f_list), f_list->head);
-		else
-		{
-			print_horizontal(list_size(f_list), f_list->head);
-			printf("\n");
-		}
-		opts->fileCount = 0;
-	}
-
-}
 /**
  * print_safe - print safe
  * @arc: int
@@ -99,11 +74,7 @@ void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 
 	if (_opts->pathCount >= 2 && list->size > 0)
 		fprintf(stdout, "%s:\n", copy);
-	else if (_opts->pathCount == 1 && _opts->fileCount > 0)
-	{
-		_opts->fileCount = 0;
-		fprintf(stdout, "%s:\n", copy);
-	}
+
 	print_list_safe(list, list->head, _opts);
 	if (_opts->pathCount >= 2 &&  list->size >  0 && count < _opts->pathCount)
 		fprintf(stdout, "%c", '\n');
