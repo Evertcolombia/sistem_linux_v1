@@ -106,7 +106,7 @@ void print_safe(int arc, ls_c *list,  char *copy, _opts *_opts);
 
 /* other helpers*/
 char *allocBuf(char *dest, char *path, char *name, char *com);
-int error_mannager(int errid, char *path);
+void error_mannager(int errid, char *path);
 int print_vertical(int size, ls_n *head);
 int print_horizontal(int size, ls_n *head);
 
