@@ -12,8 +12,7 @@ DIR *open_directory(DIR *dirp, char *path)
 	dirp = opendir(path);
 	if (dirp == NULL)
 	{
-		if (error_mannager(errno, path) == 1)
-			return (NULL);
+		error_mannager(errno, path);
 	}
 
 	return (dirp);
@@ -37,11 +36,6 @@ void listFiles(const char *dirpath, int arc, _opts *ar_opts, ls_c *f_list)
 
 	list_init(&list, NULL);
 	dirp = open_directory(dirp, (char *) dirpath);
-
-	if (dirp == NULL && ar_opts->pathCount == 0)
-		return;
-	else if (dirp == NULL)
-		return;
 
 	copy = (char *) dirpath;
 	if (_strcmp((char *) dirpath, "..") == 0)
@@ -105,7 +99,7 @@ void print_safe(int arc, ls_c *list, char *copy, _opts *_opts)
 
 	if (_opts->pathCount >= 2 && list->size > 0)
 		fprintf(stdout, "%s:\n", copy);
-	else if (_opts->pathCount == 1 && _opts->fileCount > 0)
+	else if (_opts->pathCount == 1 && _opts->fileCount == 0)
 	{
 		_opts->fileCount = 0;
 		fprintf(stdout, "%s:\n", copy);
